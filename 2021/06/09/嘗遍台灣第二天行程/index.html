@@ -10,7 +10,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>歸檔: 2021 | Taiwan Tea</title>
+  <title>嘗遍台灣第二天行程 | Taiwan Tea</title>
 
   
     
@@ -382,149 +382,375 @@
     
 </header>
     <main class="main" style="margin-top: 0;">
-      <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
-<div class="lazyload archive-header" data-original="https://www.taiwan.net.tw/userfiles/image/Wallpaper/2021_May_1920x1080_04.jpg" >
-  <div class="archive-header-title">
-    archive
-  </div>
-  <div class="archive-header-desc">
-  
-  <span class="title" id="archive-header-desc"></span>
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-      <script>
-      var typed = new Typed("#archive-header-desc", {
-          strings: ['高山出好茶，名山出名茶，名茶在中華。'],
-          startDelay: 150,
-          typeSpeed: 150,
-          loop: true,
-          backSpeed: 100,
-          showCursor: true
-      });
-      </script>
-  
-  </div>
-  <div class="mask-box"></div>
-</div>
+      
+ <!-- prismjs 代码高亮 -->
+ 
 
-<div class="archive-video">
-  <video class="full-video" autoplay loop muted>
-      <source style="width: 100%;height: 100vh;" src="/">
-  </video>
-  <div class="video-header-title">
-    archive
-  </div>
-  <div class="video-header-desc">
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;" :style="{'background-color': bgColor ? bgColor : 'transparent'}">
+    <transition-group tag="ul" :name="names">
+        <li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+            <img :src="image" class="bg-swiper-img">
+        </li>
+    </transition-group>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#appBgSwiper',
+        data: {
+            names: '' || 'fade' || 'fade', // translate-fade fade
+            mark: 0,
+            img: [],
+            bgColor: '',
+            time: null
+        },
+        methods: {   //添加方法
+            change(i, m) {
+                if (i > m) {
+                    // this.names = 'fade';
+                } else if (i < m) {
+                    // this.names = 'fade';
+                } else {
+                    return;
+                }
+                this.mark = i;
+            },
+            prev() {
+                // this.names = 'fade';
+                this.mark--;
+                if (this.mark === -1) {
+                    this.mark = 3;
+                    return
+                }
+            },
+            next() {
+                // this.names = 'fade';
+                this.mark++;
+                if (this.mark === this.img.length) {
+                    this.mark = 0;
+                    return
+                }
+            },
+            autoPlay() {
+                // this.names = 'fade';
+                this.mark++;
+                if (this.mark === this.img.length) {
+                    this.mark = 0;
+                    return
+                }
+            },
+            play() {
+                let bgImgDelay = '' || '180000'
+                let delay = parseInt(bgImgDelay) || 180000;
+                this.time = setInterval(this.autoPlay, delay);
+            },
+            enter() {
+                clearInterval(this.time);
+            },
+            leave() {
+                this.play();
+            }
+        },
+        created() {
+            this.play()
+        },
+        beforeDestroy() {
+            clearInterval(this.time);
+        },
+        mounted() {
+            let prop = ''|| 'https://pic4.zhimg.com/80/v2-5030587bac1b856d09e0a119ff6d7c04_1440w.jpg,https://api.btstu.cn/sjbz/api.php';
+            let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://') 
+            if (isImg) {
+                let img = prop.split(',');
+                let configRoot = '/'
+                let arrImg = [];
+                img.forEach(el => {
+                    var Expression=/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+			        var objExp = new RegExp(Expression);
+
+                    if(objExp.test(el)) {
+                        // http or https
+                        arrImg.push(el);
+                    } else {
+                        // 非http or https开头
+                        // 本地文件
+                        let firstStr = el.charAt(0);
+                        if (firstStr == '/') {
+                            el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+                        }
+                        el = configRoot + el;
+                        arrImg.push(el);
+                    }
+                })
+                this.img = arrImg;
+            } else {
+                this.bgColor = prop;
+            }
+        }
+    })
+</script>
+
+<style>
+    .bg-swiper-box {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .bg-swiper-img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+
+
+
+<div class="post-detail-header lazyload" id="thumbnail_canvas" data-original="/medias/image/9.jpg" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
-      <span class="title" id="video-header-desc"></span>
-      <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <div class="title-box">
+      
+        <span class="title" id="post-detail-header-title"></span>
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
           <script>
-          var typed = new Typed("#video-header-desc", {
-              strings: ['高山出好茶，名山出名茶，名茶在中華。'],
+            var typed = new Typed("#post-detail-header-title", {
+              strings: ['嘗遍台灣第二天行程'],
               startDelay: 150,
               typeSpeed: 150,
-              loop: true,
+              loop: false,
               backSpeed: 100,
-              showCursor: true
-          });
+              showCursor: false
+            });
           </script>
-      
-  </div>
-  <div class="mask-box"></div>
-</div>
-
-<div class="archive-main">
-  <section class="archive">
-    <div class="archive-content">
-      <ul class="post-archive">
         
-        
-          
-            
-            <div class="year" data-aos="zoom-in-up">
-                <div class="bullet"></div>
-                <a href="/archives/2021">2021</a>
-            </div>
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-09</span>
-            <a class="post-title" href="/2021/06/09/%E9%98%BF%E5%AE%8F%E5%B8%AB%E7%81%AB%E9%9B%9E%E8%82%89%E9%A3%AF/">阿宏師火雞肉飯</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-09</span>
-            <a class="post-title" href="/2021/06/09/%E9%98%BF%E9%87%8C%E5%B1%B1%E6%A3%AE%E6%9E%97%E9%90%B5%E8%B7%AF%E8%BB%8A%E5%BA%AB%E5%9C%92%E5%8D%80/">阿里山森林鐵路車庫園區</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-09</span>
-            <a class="post-title" href="/2021/06/09/%E5%98%89%E7%BE%A9%E5%8F%B2%E8%B9%9F%E8%B3%87%E6%96%99%E9%A4%A8/">嘉義史蹟資料館</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-09</span>
-            <a class="post-title" href="/2021/06/09/%E5%98%97%E9%81%8D%E5%8F%B0%E7%81%A3%E7%AC%AC%E4%BA%8C%E5%A4%A9%E8%A1%8C%E7%A8%8B/">嘗遍台灣第二天行程</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-08</span>
-            <a class="post-title" href="/2021/06/08/%E5%98%89%E7%BE%A9%E8%A7%80%E6%AD%A2%E6%BA%AB%E6%B3%89%E6%9C%83%E9%A4%A8/">嘉義觀止溫泉會館</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-08</span>
-            <a class="post-title" href="/2021/06/08/%E5%8D%8A%E5%A4%A9%E5%B2%A9%E9%B5%9D%E8%82%89%E9%B4%A8%E8%82%89%E5%B0%8F%E5%90%83/">半天岩鵝肉鴨肉小吃</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-08</span>
-            <a class="post-title" href="/2021/06/08/%E7%94%9F%E5%8A%9B%E8%BE%B2%E5%A0%B4/">生力農場</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-07</span>
-            <a class="post-title" href="/2021/06/07/%E6%96%87%E5%8C%96%E8%B7%AF%E5%A4%9C%E5%B8%82/">文化路夜市</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-06</span>
-            <a class="post-title" href="/2021/06/06/%E5%98%97%E9%81%8D%E5%8F%B0%E7%81%A3%E7%AC%AC%E4%B8%80%E5%A4%A9%E8%A1%8C%E7%A8%8B/">嘗遍台灣第一天行程</a>
-          </li>
-        
-          
-          <li class="post-item" data-aos="fade-left">
-            <span class="post-date">06-05</span>
-            <a class="post-title" href="/2021/06/05/%E5%98%97%E9%81%8D%E5%8F%B0%E7%81%A3%E8%A1%8C%E5%89%8D%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/">嘗遍台灣行前注意事項</a>
-          </li>
-        
-      </ul>
     </div>
-  </section>
   
-  <!-- <nav class="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2021/page/2/">2</a><a class="extend next" rel="next" href="/archives/2021/page/2/">下壹頁</a>
-  </nav> -->
-  <div class="page-nav">
-    
-    <div class="page-info">
-        <div class="page-info-text">1 / 2</div>
-    </div>
-    
-      <a href="/archives/2021/page/2/"
-         class="page-nav-next">
-          <span class="mr-5">下壹頁</span><i class="fa fa-angle-right"></i>
-      </a>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+<div class="row justify-position">
+  <div class="main-content">
+    <article class="post post-detail">
       
+      
+      <div class="post-meta">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span class="post-time">2021-06-09</span>
+      </div>
+      
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          <i class="iconfont icontag"></i>
+          
+            <a href="/tags/%E7%AC%AC%E4%BA%8C%E5%A4%A9/" class="">
+              第二天
+            </a>
+          
+        </div>
+        
+        
+        <div class="categories">
+          <i class="iconfont iconbookmark1"></i>
+          
+            <a href="/categories/%E8%A1%8C%E7%A8%8B/" class="">
+              行程
+            </a>
+          
+        </div>
+        
+      </div>
+      <div class="post-content">
+        <h1 id="行程表"><a href="#行程表" class="headerlink" title="行程表"></a>行程表</h1><p><img "" class="lazyload placeholder" data-original="https://i.imgur.com/EO5tFSp.png" src="https://img10.360buyimg.com/ddimg/jfs/t1/157667/29/9156/134350/603c6445Ebbc9cabe/41219c5d36d45072.gif"></p>
+<h1 id="行程介紹"><a href="#行程介紹" class="headerlink" title="行程介紹"></a>行程介紹</h1><h2 id="嘉義史蹟資料館"><a href="#嘉義史蹟資料館" class="headerlink" title="嘉義史蹟資料館"></a>嘉義史蹟資料館</h2><p>嘉義市史蹟資料館兩棟建物乃日治時期嘉義神社附屬的齋館及社務所，嘉義市史蹟資料館列為市定古蹟，其創建於西元1943年，齋館係前往神社祭祀前齋戒和準備的地方，而社務所為神社行政管理辦公處。 齋館、社務所、手水舍，祭器庫等，是日本留下的居住文化代表，且祭器庫有混凝土模倣木作建築的外牆，較為特殊。</p>
+<p><a href="/2021/06/09/%E5%98%89%E7%BE%A9%E5%8F%B2%E8%B9%9F%E8%B3%87%E6%96%99%E9%A4%A8/">詳細介紹</a></p>
+<h2 id="阿宏師火雞肉飯"><a href="#阿宏師火雞肉飯" class="headerlink" title="阿宏師火雞肉飯"></a>阿宏師火雞肉飯</h2><p>阿宏師火雞肉飯鄰近文化路商圈，據說是近年才興起的火雞肉飯店。價位普通，在嘉義的火雞肉飯中，稱不上便宜或貴。除了火雞肉飯外，火雞片飯據說吃起來更為爽快。另外，腿庫飯也是網友狂推的美食。</p>
+<p><a href="/2021/06/09/%E9%98%BF%E5%AE%8F%E5%B8%AB%E7%81%AB%E9%9B%9E%E8%82%89%E9%A3%AF/">詳細介紹</a></p>
+<h2 id="阿里山鐵道車庫園區"><a href="#阿里山鐵道車庫園區" class="headerlink" title="阿里山鐵道車庫園區"></a>阿里山鐵道車庫園區</h2><p>「阿里山森林鐵路車庫園區」位於嘉義市林森西路北側，為阿里山小火車的大本營，裡面收藏著各式各樣的機車頭與廠房設備，更備有機關車庫、修理工廠、停車場、車廂清洗場等設。旅客們不但可以看到數台退役蒸汽火車、柴油機車、動力客車、客貨車廂以及方便火車頭變換方向的圓形轉車台等，還可以近距離觸摸！豐富的程度就宛如大型火車生態博物館，鐵道迷絕不能錯過。</p>
+<p><a href="/2021/06/09/%E9%98%BF%E9%87%8C%E5%B1%B1%E6%A3%AE%E6%9E%97%E9%90%B5%E8%B7%AF%E8%BB%8A%E5%BA%AB%E5%9C%92%E5%8D%80/">詳細介紹</a></p>
+
+      </div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img lazyload" data-original="/medias/image/10.jpg" style="background-size: cover; 
+      background-position: center center;">
+    </div>
+    <a href="/2021/06/09/%E5%98%89%E7%BE%A9%E5%8F%B2%E8%B9%9F%E8%B3%87%E6%96%99%E9%A4%A8/" class="post-nav-link">
+      <div class="title">
+        <i class="fa fa-angle-left"></i> 上壹篇:
+        <div>嘉義史蹟資料館</div>
+      </div>
+      
+      <!-- <div class="content">
+        嘉義市史蹟資料館簡介昭和十八J18－嘉義市史蹟資料館於日治時代創建，是嘉義神社附屬的齋館及社務所，整個建築相當有日式風格
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img lazyload" data-original="/medias/image/8.jpg" style="background-size: cover; 
+      background-position: center center;">
+    </div>
+    <a href="/2021/06/08/%E5%98%89%E7%BE%A9%E8%A7%80%E6%AD%A2%E6%BA%AB%E6%B3%89%E6%9C%83%E9%A4%A8/" class="post-nav-link">
+      <div class="title">
+        下壹篇: <i class="fa fa-angle-right"></i>
+        <div>嘉義觀止溫泉會館</div>
+      </div>
+      <!-- <div class="content">
+        嘉義觀止溫泉會館介紹「嘉義觀止」為苗栗泰安觀止的系列作品是承租嘉義市區既有新光大樓舊建物加以改造，雖然與泰安觀止、華山觀
+      </div> -->
+    </a>
   </div>
 
 </div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+    
+    <!-- 评论 -->
+      
+        <div id="myComment">
+          
+        </div>
+      
+  </div>
+
+  
+    <div class="toc-aside">
+      <div class="toc-main">
+        <div class="toc-aside-title">
+          <i class="fa fa-list-ul" aria-hidden="true"></i><span>本文目錄</span>
+          <div class="toc-open-close">本文目錄</div>
+        </div>
+        <div class="toc-content">
+          <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script>
+<div class="toc"></div>
+
+<script>
+  if ($('.toc').length > 0) {
+    var headerEl = 'h2, h3, h4',  //headers 
+      content = '.post-detail',//文章容器
+      idArr = {};  //标题数组以确定是否增加索引id
+      //add #id
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: '.toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: content,
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: headerEl,
+      scrollSmooth: true,
+      scrollSmoothOffset: -80,
+      headingsOffset: -($(window).height() * 0.4 - 45),
+      positionFixedSelector: '.toc-main',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  }
+
+</script>
+
+<style>
+.is-position-fixed {
+  position:sticky !important;
+  top: 74px;
+}
+.toc-main ul {
+  counter-reset: show-list;
+}
+.toc-main ul li::before {
+  content: counter(item)".";
+  display: block;
+  position: absolute;
+  left: 12px;
+  top:0;
+}
+.toc > .toc-list {
+  padding-left: 35px;
+}
+.toc>.toc-list li {
+  list-style: decimal;
+}
+.toc-list {
+  padding-left: 25px;
+}
+</style>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+      let openOrCloseBtn = $('.toc-aside .toc-aside-title .toc-open-close');
+      let open = eval('' || 'true');
+      openOrCloseBtn.click(function() {
+        if (open === true) {
+          $(".toc-aside").css({'width': 0, 'padding': 0});
+          $(".toc-content").css({'width': 0});
+          $(".toc-aside-title span, .toc-aside-title i").css({'display': 'none'});
+          $(".main-content").css({'width': '75%', 'margin': '10px auto'});
+          open = false;
+        } else {
+          $(".toc-aside").css({'width': '300px', 'padding': '0 10px'});
+          $(".toc-content").css({'width': '300px'});
+          $(".toc-aside-title span, .toc-aside-title i").css({'display': 'inline-block'});
+          $(".main-content").css({'width': '65%', 'margin-right': '10px', 'margin-left': 'calc(35% - 350px)'});
+          open = true;
+        }
+      });
+    </script>
+  
+
+
+</div>
+
+
     </main>
     <div class="footer bg-color">
   <div class="footer-main">
